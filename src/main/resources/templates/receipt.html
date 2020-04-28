@@ -1,0 +1,253 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="/favicon.ico" >
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="/lib/html5shiv.js"></script>
+	<script type="text/javascript" src="/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>医生</title>
+</head>
+<body>
+<div class="page-container">
+	<div class="row cl">
+		<form action="/getReceiptMsg">
+			<h5>患者信息查询</h5>
+			<label class="form-label col-xs-1 col-sm-1">病历号：</label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" value="" placeholder="" id="MedicRecord" name="MedicRecord" th:value="${MedicRecord}">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;查询&nbsp;&nbsp;">
+			</div>
+
+			<label class="form-label col-xs-12 col-sm-11"></label>
+			<label class="form-label col-xs-12 col-sm-11"></label>
+			<label class="form-label col-xs-12 col-sm-11"></label>
+		</form>
+	</div>
+	<div class="row cl">
+		<h5>患者信息确认</h5>
+		<label class="form-label col-xs-1 col-sm-1">患者姓名：</label>
+		<div class="formControls col-xs-2 col-sm-2">
+			<input type="text" class="input-text" value="" placeholder="" id="PatientName" name="PatientName" th:value="${PatientName}"  disabled="disabled">
+		</div>
+		<label class="form-label col-xs-1 col-sm-1">身份证号：</label>
+		<div class="formControls col-xs-2 col-sm-2">
+			<input type="text" class="input-text" value="" placeholder="" id="IdentifyID" name="IdentifyID" th:value="${IdentifyID}" disabled="disabled">
+		</div>
+		<label class="form-label col-xs-1 col-sm-1">家庭地址：</label>
+		<div class="formControls col-xs-2 col-sm-2">
+			<input type="text" class="input-text" value="" placeholder="" id="Address" name="Address" th:value="${Address}" disabled="disabled">
+		</div>
+
+		<label class="form-label col-xs-12 col-sm-11"></label>
+		<label class="form-label col-xs-12 col-sm-11"></label>
+		<label class="form-label col-xs-12 col-sm-11"></label>
+	</div>
+	<div class="mt-20">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span style="float:left">患者收费信息:</span>
+				<button class="btn btn-primary radius" type="button"  style="float: right" onClick="modaldemo()">结算</button>
+		</div>
+		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive" id="list">
+			<thead>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="80" class="sorting">病历号</th>
+				<th width="80">姓名</th>
+				<th width="80">项目名称</th>
+				<th width="80">单价</th>
+				<th width="80">数量</th>
+				<th width="120">开立时间</th>
+				<th width="75">状态</th>
+			</tr>
+			</thead>
+			<tbody >
+			<tr class="text-c" th:each="info:${receiptMsgList}">
+				<td width="25"><input type="checkbox" name="" value="" th:value="${info.FeeID}"></td>
+				<td th:text="${MedicRecord}"></td>
+				<td th:text="${PatientName}"></td>
+				<td th:text="${info.ProjectName}"></td>
+				<td th:text="${info.Price}"></td>
+				<td th:text="${info.Amount}"></td>
+				<td th:text="${info.CreateTime}"></td>
+				<td th:text="${info.State}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--使用ztree插件，也可以自行选择其他插件显示 -->
+<script type="text/javascript" src="/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	$("#tab-system").Huitab({
+		index:0
+	});
+});
+
+function receipt() {
+
+}
+function modaldemo(){
+	$('#medic').val($('#MedicRecord').val());
+	$('#name').val($('#PatientName').val());
+	$('#price').val("0")
+	$('#list input:checkbox').each(function () {
+		if($(this).prop("checked") == true) {
+			var feeID = $(this).val();
+			var price = $('#price').val();
+			console.log(price);
+			$.ajax({
+				url:"/initialModel",
+				data:{"FeeID":feeID,"Price":price},
+				type:"post",
+				datatype:"json",
+				async: false,
+				success:function (data) {
+					console.log("test")
+					$('#price').val(data.price);
+					$('#receipt').val(data.receiptID);
+				}
+			})
+		}
+	})
+
+	$("#modal-demo").modal("show")
+}
+
+	function charge() {
+		var really = $('#really').val();
+		var price = $('#price').val();
+		$('#rest').val(really - price);
+	}
+	
+	function dnchange() {
+		var receiptID = $('#receipt').val();
+		var medic = $('#medic').val();
+		var name = $('#name').val();
+		var ChargeMethod = $('#ChargeMethod').val();
+		var really = $('#really').val();
+		var price = $('#price').val();
+		var rest = $('#rest').val();
+		$.ajax({
+			url:"/saveReceipt",
+			data:{"ReceiptID":receiptID,"Medic":medic,
+				"Name":name,"ChargeMethod":ChargeMethod,
+				"Really":really,"Price":price,
+				"Rest":rest},
+			type:"post",
+			datatype:"json",
+			success:function () {
+			}
+		})
+		$('#list input:checkbox').each(function () {
+			if($(this).prop("checked") == true) {
+				$(this).parent().parent().children().eq(7).text("已缴费");
+				alert("已缴费");
+			}
+		})
+	}
+</script>
+<!-- 弹出层 -->
+<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">添加诊断</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+			</div>
+
+				<div class="modal-body">
+					<div class="row cl">
+						<label class="form-label col-xs-2 col-sm-2">发票号：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+								<textarea class="input-text" id="receipt" disabled="disabled" ></textarea>
+						</div>
+						<label class="form-label col-xs-2 col-sm-2">病历号：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<textarea class="input-text" id="medic" disabled="disabled" ></textarea>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-2 col-sm-2">患者姓名：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<textarea class="input-text" id="name" disabled="disabled"></textarea>
+						</div>
+						<label class="form-label col-xs-2 col-sm-2">支付方式：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<span class="select-box"><select class="select" id="ChargeMethod">
+								<option>--请选择收费方式--</option>
+								<option value="51">现金</option>
+								<option value="52">医保卡</option>
+								<option value="53">银行卡</option>
+								<option value="54">信用卡</option>
+								<option value="55">微信</option>
+								<option value="56">支付宝</option>
+								<option value="57">云闪付</option>
+								<option value="58">其他</option>
+							</select></span>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-2 col-sm-2">应收金额：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<textarea class="input-text" id="price"></textarea>
+						</div>
+						<label class="form-label col-xs-2 col-sm-2">实收金额：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<textarea class="input-text" id="really" onkeyup="charge()"></textarea>
+						</div>
+					</div>
+						<div class="row cl">
+						<label class="form-label col-xs-2 col-sm-2">找零金额：</label>
+						<div class="formControls col-xs-4 col-sm-4" >
+							<textarea class="input-text" id="rest" disabled="disabled"></textarea>
+						</div>
+						</div>
+
+					</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-primary" onclick="dnchange()"  aria-hidden="true" data-dismiss="modal">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+
+		</div>
+	</div>
+</div>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

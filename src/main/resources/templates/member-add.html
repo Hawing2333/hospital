@@ -1,0 +1,270 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="/favicon.ico" >
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="/lib/html5shiv.js"></script>
+	<script type="text/javascript" src="/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>现场挂号</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+</head>
+<body>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+
+		<div class="row cl">
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-2">根据病历号查询患者信息</label>
+				<label class="form-label col-xs-12 col-sm-11"></label>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">病历号：</label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" value="" placeholder="" id="MedicRecord" name="MedicRecord">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;查询&nbsp;&nbsp;" onclick="check()">
+			</div>
+			<!--<div class="formControls col-xs-2 col-sm-2">-->
+				<!--<input class="btn btn-primary radius" type="checkbox" value="AutoMedicRecord">自动获取病历号-->
+			<!--</div>-->
+			<label class="form-label col-xs-12 col-sm-11"></label>
+			<label class="form-label col-xs-12 col-sm-11"></label>
+			<label class="form-label col-xs-12 col-sm-11"></label>
+
+		</div>
+
+		<div class="row cl">
+			<div class="row cl">
+				<hr>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1">病人信息</label>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>姓名：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="PatientName" name="PatientName">
+				</div>
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>性别：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box"><select class="select" id="Sex" name="Sex">
+						<option value="71">男</option>
+						<option value="72">女</option>
+					</select></span>
+				</div>
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>年龄(岁)：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="Age" name="Age">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>身份证号：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="IdentifyID" name="IdentifyID" maxlength="18">
+				</div>
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>出生年月日：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input type="date" class="input-text" value="" placeholder="" id="Birthday" name="Birthday">
+				</div>
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>地址：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="Address" name="Address">
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="row cl">
+			<div class="row cl">
+				<hr>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1">挂号信息</label>
+				<label class="form-label col-xs-11 col-sm-11"></label>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>结算类别：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box"><select class="select" id="BillCategory">
+						<option>--请选择结算方式--</option>
+						<option value="自费">自费</option>
+						<option value="市医保">市医保</option>
+				</select></span>
+				</div>
+                <label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>挂号级别：</label>
+                <div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box"><select class="select" id="RegisterLever">
+						<option>--请选择挂号级别--</option>
+						<option value="专家号">专家号</option>
+						<option value="普通号">普通号</option>
+					</select></span>
+                </div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>科室：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box"><select class="select" id="DeptName" onchange="getDoctor()">
+                        <option value="0" selected="selected">--请选择科室--</option>
+						<option value="心血管内科">心血管内科</option>
+						<option value="神经内科">神经内科</option>
+						<option value="感染内科">感染内科</option>
+					</select></span>
+				</div>
+				<label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>看诊医生：</label>
+				<div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box">
+						<select class="select" id="Doctor">
+                        <option value="0" selected="selected">--请选择看诊医生--</option>
+					</select></span>
+				</div>
+
+                <label class="form-label col-xs-1 col-sm-1"><span class="c-red">*</span>收费方式：</label>
+                <div class="formControls col-xs-2 col-sm-2">
+					<span class="select-box"><select class="select" id="ChargeMethod">
+						<option>--请选择收费方式--</option>
+						<option value="51">现金</option>
+						<option value="52">医保卡</option>
+						<option value="53">银行卡</option>
+						<option value="54">信用卡</option>
+						<option value="55">微信</option>
+						<option value="56">支付宝</option>
+						<option value="57">云闪付</option>
+						<option value="58">其他</option>
+					</select></span>
+                </div>
+            </div>
+			<div class="row cl">
+
+			</div>
+			<div class="row cl">
+				<div class="formControls col-xs-2 col-sm-2">
+					<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;挂号&nbsp;&nbsp;" onclick="register()">
+				</div>
+				<div class="formControls col-xs-2 col-sm-2">
+					<input class="btn btn-primary radius" type="reset" value="&nbsp;&nbsp;清空&nbsp;&nbsp;" onclick="clear()">
+				</div>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">{
+	function getDoctor() {
+
+		var index = $('#DeptName option:selected').val();
+		// var optionJson=[];
+        $.ajax({
+			url: "/selectDoctor",
+			type: "post",
+			data: {"DeptName":index},
+			datatype: "json",
+			success:function(data) {
+				console.log(data);
+				optionJson = data;
+				var selectObj = document.getElementById("Doctor");
+				selectObj.options.length = 0;
+				selectObj.add(new Option("--请选择看诊医生--",0));
+				for(var i=0;i<data.length;i++){
+					selectObj.add(new Option(optionJson[i].realName,i+1));
+				}
+			}}
+		)
+	}
+
+	function check(){
+		var index = $('#MedicRecord').val();
+		$.ajax({
+			url: "/getPatient",
+			type: "post",
+			data: {"MedicRecord":index},
+			datatype: "json",
+			success:function(data) {
+				patientJson = data;
+				console.log(data);
+				$('#PatientName').val(patientJson.patientName);
+				$('#Sex').val(patientJson.sex);
+				$('#Age').val(patientJson.age);
+				$('#IdentifyID').val(patientJson.identifyID);
+				$('#Birthday').val(patientJson.birthDate);
+				$('#Address').val(patientJson.address);
+			}}
+		)
+	}
+
+	function clear() {
+		var selectObj = document.getElementById("Doctor");
+		selectObj.options.length = 0;
+		selectObj.add(new Option("--请选择看诊医生--",0));
+		document.getElementById("form-member-add").reset();
+	}
+
+	function register() {
+        var patientName = $('#PatientName').val();
+        var medicRecord = $('#MedicRecord').val();
+        var sex = $('#Sex').val();
+        var identifyID = $('#IdentifyID').val();
+        var birthday = $('#Birthday').val();
+        var address = $('#Address').val();
+        var billCategory = $('#BillCategory').val();
+        var registerLever = $('#RegisterLever').val();
+        var doctor = $('#Doctor option:selected').text();
+		var chargeMethod = $('#ChargeMethod').val();
+        var age = $('#Age').val();
+        var deptName = $('#DeptName').val();
+        var status = confirm("确定挂号？");
+		if (status) {
+			$.ajax({
+				url: "/register",
+				type: "post",
+				data: {
+					"PatientName": patientName, "Sex": sex, "IdentifyID": identifyID,
+					"Birthday": birthday, "Address": address, "BillCategory": billCategory, "DeptName": deptName,
+					"RegisterLever": registerLever, "Doctor": doctor, "ChargeMethod": chargeMethod, "Age": age,"MedicRecord":medicRecord
+				},
+				datatype: "json",
+				success: function (data) {
+					console.log(data);
+					alert("病历号 : " + data.medicRecord + "挂号 ：" + data.registerID + "发票号 ：" + data.receiptID);
+				}
+			})
+		}else{
+			return false;
+		}
+	}
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

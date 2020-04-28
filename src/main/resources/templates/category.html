@@ -1,0 +1,735 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="/favicon.ico" >
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="/lib/html5shiv.js"></script>
+	<script type="text/javascript" src="/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" href="/static/css/layui.css"  media="all">
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+<title>医生诊疗</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 门诊医生 <span class="c-gray en">&gt;</span> 医生看诊 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="col-md-4">
+	<div align="center">
+		<div class="cl pd-5 bg-1 bk-gray mt-20" align="left">
+			<span>未诊患者:</span>
+		</div>
+		<table class = "table table-border table-bg table-striped table-hover">
+			<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+				<tr class="text-c">
+					<th>病历号</th>
+					<th>姓名</th>
+					<th>岁数</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-c" th:each="info:${havePatients}" th:id="${info.IdentifyID}" onclick="test(this)">
+					<th th:text="${info.MedicRecord}"></th>
+					<th th:text="${info.PatientName}"></th>
+					<th th:text="${info.Age}"></th>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-20" align="left">
+			<span>已诊患者:</span>
+		</div>
+
+		<table  class = "table table-border table-bg table-striped table-hover">
+			<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+			<tr class="text-c">
+				<th>病历号</th>
+				<th>姓名</th>
+				<th>岁数</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr class="text-c" th:each="info:${notPatients}" th:id="${info.IdentifyID}" onclick="test1(this)">
+				<th th:text="${info.MedicRecord}"></th>
+				<th th:text="${info.PatientName}"></th>
+				<th th:text="${info.Age}"></th>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="col-md-8">
+	<div align="center">
+			<div id="tab-system" class="layui-tab">
+				<div class="tabBar clearfix">
+					<span>病历首页</span>
+					<span>医生开药</span>
+				</div>
+				<form class="form form-horizontal">
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">病历号：</label>
+						<div class="formControls col-xs-4 col-sm-2" >
+							<textarea class="input-text" name="MedicRecord" id="MedicRecord" disabled="disabled"></textarea>
+						</div>
+						<label class="form-label col-xs-4 col-sm-2">患者姓名：</label>
+						<div class="formControls col-xs-4 col-sm-2" >
+							<textarea class="input-text" name="PatientName" id="PatientName" disabled="disabled"></textarea>
+						</div>
+						<label class="form-label col-xs-4 col-sm-2">患者年龄：</label>
+						<div class="formControls col-xs-4 col-sm-2" >
+							<textarea class="input-text" name="Age" id="Age" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">身份证号：</label>
+						<div class="formControls col-xs-4 col-sm-10" >
+							<textarea class="input-text" name="IdentifyID" id="IdentifyID" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<br><hr>
+				</form>
+				<form class="form form-horizontal" id="form-article-add">
+					<div class="tabCon">
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">主诉：</label>
+							<div class="formControls col-xs-4 col-sm-9" >
+								<textarea class="input-text" name="Statement" id="Statement" disabled="disabled"></textarea>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">现病史：</label>
+							<div class="formControls col-xs-4 col-sm-9" >
+								<textarea class="input-text radius size-L" name="CurrentHistory" id="CurrentHistory" disabled="disabled"></textarea>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">现病史治疗情况：</label>
+							<div class="formControls col-xs-4 col-sm-9" >
+								<textarea class="input-text radius size-L" name="CurrentSituation" id="CurrentSituation" disabled="disabled"></textarea>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">既往史：</label>
+							<div class="formControls col-xs-4 col-sm-9" >
+								<textarea class="input-text radius size-L" name="PastHistory" id="PastHistory" disabled="disabled"></textarea>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">过敏史：</label>
+							<div class="formControls col-xs-4 col-sm-9">
+								<textarea class="input-text radius size-L" name="Allergy" id="Allergy" disabled="disabled"></textarea>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-4 col-sm-2">体格检查：</label>
+							<div class="formControls col-xs-4 col-sm-9">
+								<textarea class="input-text radius size-L" name="PhysicalExamination" id="PhysicalExamination" disabled="disabled"></textarea>
+							</div>
+						</div>
+
+						<div class="row cl">
+							<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+								<button onClick="save();" class="btn btn-primary radius" type="button" id="button"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+								<button onClick="layer_close();" class="btn btn-default radius" type="reset">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+							</div>
+						</div>
+					<br><hr>
+
+						<div class="cl pd-5 bg-1 bk-gray mt-20">
+							 <span style="float:left">诊断:</span>
+							<button class="btn btn-primary radius" type="button"  style="float:right" onClick="modaldemo()">添加诊断</button>
+						</div>
+						<table class = "table table-border table-bg table-striped table-hover">
+							<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+							<tr class="text-c">
+								<th width="25"><input type="checkbox" name="" value=""></th>
+								<th>ICD编码</th>
+								<th>名称</th>
+								<th>发病时间</th>
+							</tr>
+							</thead>
+							<tbody id="tbody1">
+								<!--<tr class="text-c" th:each="info:${diseases}" id="diagnosisData.disease.diseaseID">-->
+									<!--<td><input type="checkbox" value="" name="" checked="" name="diagnosisData.disease.diseaseID"></td>-->
+									<!--<th th:text="${info.DiseaseICD}" id="diagnosisData.disease.diseaseICD"></th>-->
+									<!--<th th:text="${info.DiseaseName}" id="diagnosisData.disease.diseaseName"></th>-->
+									<!--<th th:text="${info.DiseaseName}" name="diagnosisData.disease.diseaseID"></th>-->
+								<!--</tr>-->
+							</tbody>
+						</table>
+					</div>
+				</form>
+
+					<div class="tabCon">
+						<form>
+						<div class="row cl">
+							<div class="cl pd-5 bg-1 bk-gray mt-20" align="left">
+								<span>门诊诊断:</span>
+								<span id="diagnosisName"></span>
+							</div>
+							<div class="cl pd-5 bg-1 bk-gray mt-20">
+								<span style="float:left">操作:</span>
+								<button class="btn btn-primary radius" type="submit"  style="" onclick="addReceipt()">开立</button>
+								<button class="btn btn-primary radius" type="button"  style="" onClick="addModel()">增药</button>
+								<!--<button class="btn btn-primary radius" type="button"  style="" onClick="">删药</button>-->
+							</div>
+						</div>
+							<div class="row cl">
+								<div class="cl col-xs-4 col-md-4">
+									<div class="cl pd-5 bg-1 bk-gray mt-20">
+										<span style="float:left">门诊处方:</span>
+									</div>
+									<table class = "table table-border table-bg table-striped table-hover">
+										<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+										<tr class="text-c">
+											<th>处方名称</th>
+										</tr>
+										</thead>
+										<tbody id="tbody4">
+										</tbody>
+									</table>
+								</div>
+								<div class="cl col-xs-8 col-md-8">
+									<div class="cl pd-5 bg-1 bk-gray mt-20">
+										<span style="float:left">药品信息:</span>
+									</div>
+									<table class = "table table-border table-bg table-striped table-hover">
+										<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+										<tr class="text-c">
+											<th>药品名称</th>
+											<th>规格</th>
+											<th>单价</th>
+											<th>用法</th>
+											<th>用量</th>
+											<th>频次</th>
+											<th>数量</th>
+										</tr>
+										</thead>
+										<tbody id="tbody3">
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</form>
+						<div class="row cl">
+							<div class="cl col-xs-4 col-md-4">
+								<div class="cl pd-5 bg-1 bk-gray mt-20">
+									<span style="float:left">处方模板:</span>
+								</div>
+								<table class = "table table-border table-bg table-striped table-hover">
+									<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+									<tr class="text-c">
+										<th>处方名称</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr class="text-c" th:each="info:${models}" th:id="${info.ModelID}" onclick="getDetail(this)">
+										<th th:text="${info.ModelName}"></th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="cl col-xs-8 col-md-8">
+								<div class="cl pd-5 bg-1 bk-gray mt-20">
+									<span style="float:left">模板明细:</span>
+									<button class="btn btn-primary radius" type="button"  style="" onClick="useModel()" id="UseIt">使用该模板</button>
+								</div>
+								<table class = "table table-border table-bg table-striped table-hover">
+									<thead class="table table-bg table-hover table-sort table-responsive cl pd-5 bg-1 bk-gray mt-20">
+									<tr class="text-c">
+										<th>药品名称</th>
+										<th>规格</th>
+										<th>单价</th>
+										<th>用法</th>
+										<th>用量</th>
+										<th>频次</th>
+										<th>数量</th>
+									</tr>
+									</thead>
+									<tbody id="tbody2">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--使用ztree插件，也可以自行选择其他插件显示 -->
+<script type="text/javascript" src="/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript">
+	function addReceipt(){
+		var arr = {};
+		var name,unit,price,usage,dosage,frequency,amount;
+		var medicRecord = $('#MedicRecord').val();
+		var Array = [];
+		$('#tbody3 tr').each(function () {
+			var st = [];
+			var chil = $(this).children('td');
+			var txt;
+			for(var i=0;i<chil.length;i++){
+				txt = chil.eq(i).text();
+				st.push(txt);
+				// alert(st);
+			}
+			name = st[0];
+			unit = st[1];
+			price = st[2];
+			usage = st[3];
+			dosage = st[4];
+			frequency = st[5];
+			amount = st[6];
+			arr = {
+				"projectName":name,
+				"price":price,
+				"amount":amount,
+				"medicRecordID":medicRecord
+			}
+			$.ajax({
+				url:"/addReceipt",
+				data:{"ReceiptList":JSON.stringify(arr)},
+				type:"post",
+				datatype:"json",
+				asy:false,
+				success:function () {
+					alert("添加成功");
+				}
+			})
+		})
+
+
+	}
+
+$(function () {
+	$("#tab-system").Huitab({
+		index:0
+	});
+})
+
+
+	function deleteMedicine(element) {
+		var state = confirm("是否删除该药品");
+		if(state){
+			element.remove();
+		}
+	}
+
+	function useModel() {
+		var modelID = $('#UseIt').val();
+		$.ajax({
+			url:"getModelName",
+			data:{"ModelID":modelID},
+			type:"post",
+			datatype:"json",
+			success:function (data) {
+				var table = "";
+				table += "<tr class=\"text-c\">";
+				table += "<td> " + data + "</td>";
+				table += "</tr>";
+				document.getElementById("tbody4").innerHTML = table;
+			}
+		})
+		$.ajax({
+			url:"getDetail",
+			data:{"ModelID":modelID},
+			type:"post",
+			datatype:"json",
+			success:function (data) {
+				var table = document.getElementById("tbody3").innerHTML;
+				for(var i=0;i<data.length;i++){
+					table += "<tr class=\"text-c\" onclick=\"deleteMedicine(this)\">";
+					// table += "<td><input type=\"checkbox\" value=\"\" name=\"" + modelData[i].disease.diseaseID + "\"></td>";
+					table += "<td>" + modelData[i].medicineID + "</td>";
+					table += "<td>" + modelData[i].medicineFormat + "</td>";
+					table += "<td>" + modelData[i].price + "</td>";
+					table += "<td>" + modelData[i].medicineUsage + "</td>";
+					table += "<td>" + modelData[i].dosage + "</td>";
+					table += "<td>" + modelData[i].medicineFrequency + "</td>";
+					table += "<td>" + modelData[i].medicineAmount + "</td>";
+					table += "</tr>";
+				}
+				document.getElementById("tbody3").innerHTML = table;
+			}
+		})
+	}
+
+	function getDetail(element) {
+		var modelID = element.id;
+		$('#UseIt').val(modelID);
+		$.ajax({
+			url:"/getDetail",
+			data:{"ModelID":modelID},
+			type:"post",
+			datatype:"json",
+			success:function (data) {
+				modelData = data;
+				var table = "";
+				for(var i=0;i<data.length;i++){
+					table += "<tr class=\"text-c\">";
+					// table += "<td><input type=\"checkbox\" value=\"\" name=\"" + modelData[i].disease.diseaseID + "\"></td>";
+					table += "<td> " + modelData[i].medicineID + "</td>";
+					table += "<td> " + modelData[i].medicineFormat + "</td>";
+					table += "<td> " + modelData[i].price + "</td>";
+					table += "<td> " + modelData[i].medicineUsage + "</td>";
+					table += "<td> " + modelData[i].dosage + "</td>";
+					table += "<td> " + modelData[i].medicineFrequency + "</td>";
+					table += "<td> " + modelData[i].medicineAmount + "</td>";
+					table += "</tr>";
+				}
+				document.getElementById("tbody2").innerHTML = table;
+			}
+		})
+	}
+
+	function test(element) {
+		var id = element.id;
+		// var tr = document.getElementById(id);
+		document.getElementById("Statement").disabled="";
+		document.getElementById("CurrentHistory").disabled="";
+		document.getElementById("CurrentSituation").disabled="";
+		document.getElementById("PastHistory").disabled="";
+		document.getElementById("PhysicalExamination").disabled="";
+		document.getElementById("Allergy").disabled="";
+		document.getElementById('button').disabled="";
+
+		$.ajax({
+			url:"/getMedicSituation",
+			data:{"IdentifyID":id},
+			type:"post",
+			datatype:"json",
+			success:function (data) {
+				patientSituation = data;
+				document.getElementById("Statement").innerText = patientSituation.medicRecord.statement;
+				document.getElementById("CurrentHistory").innerText = patientSituation.medicRecord.currentHistory;
+				document.getElementById("CurrentSituation").innerText = patientSituation.medicRecord.currentSituation;
+				document.getElementById("PastHistory").innerText = patientSituation.medicRecord.pastHistory;
+				document.getElementById("PhysicalExamination").innerText = patientSituation.medicRecord.physicalExamination;
+				document.getElementById("Allergy").innerText = patientSituation.medicRecord.allergy;
+				document.getElementById("MedicRecord").innerText = patientSituation.patient.medicRecord;
+				document.getElementById("IdentifyID").innerText = patientSituation.patient.identifyID;
+				document.getElementById("Age").innerText = patientSituation.patient.age;
+				document.getElementById("PatientName").innerText = patientSituation.patient.patientName;
+				console.log(patientSituation);
+				$.ajax({
+					url:"/getDiagnosis",
+					data:{"IdentifyID":id},
+					type:"post",
+					datatype:"json",
+					success:function (data) {
+						console.log(data)
+						diagnosisData = data;
+						var table = "";
+						for(var i=0;i<data.length;i++){
+							table += "<tr class=\"text-c\" id=\"" + diagnosisData[i].disease.diseaseID + "\">";
+							table += "<td><input type=\"checkbox\" value=\"\" name=\"" + diagnosisData[i].disease.diseaseID + "\"></td>";
+							table += "<td " + "id=\"" + diagnosisData[i].disease.diseaseICD + "\">" + diagnosisData[i].disease.diseaseICD + "</td>";
+							table += "<td " + "id=\"" + diagnosisData[i].disease.diseaseName + "\">" + diagnosisData[i].disease.diseaseName + "</td>";
+							table += "<td " + "name=\"" + diagnosisData[i].disease.diseaseICD + "\">" + diagnosisData[i].diagnosis.diagnosisDate + "</td>";
+							table += "</tr>";
+							$('#diagnosisName').text(diagnosisData[i].disease.diseaseName);
+						}
+						document.getElementById("tbody1").innerHTML = table;
+					}
+				})
+			}
+		})
+	}
+
+function test1(element) {
+	var id = element.id;
+	var tr = document.getElementById(id);
+	document.getElementById("Statement").disabled="";
+	document.getElementById("CurrentHistory").disabled="";
+	document.getElementById("CurrentSituation").disabled="";
+	document.getElementById("PastHistory").disabled="";
+	document.getElementById("PhysicalExamination").disabled="";
+	document.getElementById("Allergy").disabled="";
+
+	$.ajax({
+		url:"/getMedicSituation",
+		data:{"IdentifyID":id},
+		type:"post",
+		datatype:"json",
+		success:function (data) {
+			patientSituation = data;
+			document.getElementById("Statement").innerText = patientSituation.medicRecord.statement;
+			document.getElementById("CurrentHistory").innerText = patientSituation.medicRecord.currentHistory;
+			document.getElementById("CurrentSituation").innerText = patientSituation.medicRecord.currentSituation;
+			document.getElementById("PastHistory").innerText = patientSituation.medicRecord.pastHistory;
+			document.getElementById("PhysicalExamination").innerText = patientSituation.medicRecord.physicalExamination;
+			document.getElementById("Allergy").innerText = patientSituation.medicRecord.allergy;
+			document.getElementById("MedicRecord").innerText = patientSituation.patient.medicRecord;
+			document.getElementById("IdentifyID").innerText = patientSituation.patient.identifyID;
+			document.getElementById("Age").innerText = patientSituation.patient.age;
+			document.getElementById("PatientName").innerText = patientSituation.patient.patientName;
+			console.log(patientSituation);
+			document.getElementById("Statement").disabled="disabled";
+			document.getElementById("CurrentHistory").disabled="disabled";
+			document.getElementById("CurrentSituation").disabled="disabled";
+			document.getElementById("PastHistory").disabled="disabled";
+			document.getElementById("PhysicalExamination").disabled="disabled";
+			document.getElementById("Allergy").disabled="disabled";
+			document.getElementById('button').disabled="disabled";
+			$.ajax({
+				url:"/getDiagnosis",
+				data:{"IdentifyID":id},
+				type:"post",
+				datatype:"json",
+				success:function (data) {
+					console.log(data)
+					diagnosisData = data;
+					var table = "";
+					for(var i=0;i<data.length;i++){
+						table += "<tr class=\"text-c\" id=\"" + diagnosisData[i].disease.diseaseID + "\">";
+						table += "<td><input type=\"checkbox\" value=\"\" name=\"" + diagnosisData[i].disease.diseaseID + "\"></td>";
+						table += "<td " + "id=\"" + diagnosisData[i].disease.diseaseICD + "\">" + diagnosisData[i].disease.diseaseICD + "</td>";
+						table += "<td " + "id=\"" + diagnosisData[i].disease.diseaseName + "\">" + diagnosisData[i].disease.diseaseName + "</td>";
+						table += "<td " + "name=\"" + diagnosisData[i].disease.diseaseICD + "\">" + diagnosisData[i].diagnosis.diagnosisDate + "</td>";
+						table += "</tr>";
+						$('#diagnosisName').text(diagnosisData[i].disease.diseaseName);
+					}
+					document.getElementById("tbody1").innerHTML = table;
+				}
+			})
+		}
+	})
+
+
+}
+
+	function save() {
+		var medicRecord = $('#MedicRecord').text();
+		var statement = $('#Statement').val();
+		var currentHistory = $('#CurrentHistory').val();
+		var currentSituation = $('#CurrentSituation').val();
+		var pastHistory = $('#PastHistory').val();
+		var physicalExamination = $('#PhysicalExamination').val();
+		var allergy = $('#Allergy').val();
+		console.log(medicRecord);
+		var status = confirm("确定保存病历信息？");
+		if (status) {
+			$.ajax({
+				url: "/save",
+				type: "post",
+				data: {"Statement":statement,"CurrentHistory":currentHistory,
+					"CurrentSituation":currentSituation,"PastHistory":pastHistory,
+					"PhysicalExamination":physicalExamination,"Allergy":allergy,"MedicRecord":medicRecord
+				},
+				datatype: "json",
+				success: function (data) {
+					alert(data);
+					window.location.href = "/category";
+				}
+			})
+		}else{
+			return false;
+		}
+	}
+
+	function modaldemo(){
+		$("#modal-demo").modal("show")}
+
+
+	function asy() {
+		var name = $('#name option:selected').val();
+
+		$.ajax({
+			url: "/selectDisease",
+			type: "post",
+			data: {"DiseaseName":name},
+			datatype: "json",
+			success:function(data) {
+				$('#ICD').val(data);
+				$('#ICD').text(data);
+			}}
+		)
+	}
+
+	function addDiagnosis(){
+		var ICD = $('#ICD').text();
+		var IdentifyID = $('#IdentifyID').text();
+		var MedicRecord = $('#MedicRecord').text();
+		$.ajax({
+			url:"/addDiagnosis",
+			data:{"DiseaseICD":ICD,"MedicRecord":MedicRecord,"IdentifyID":IdentifyID},
+			type:"post",
+			datatype:"json",
+			success:function () {
+				console.log(ICD);
+			}
+		})
+	}
+	function caculatePrice() {
+		var amount = $('#DrugsAmount').val();
+		var drugsPrice = $('#DrugsPrice').val();
+		$('#Price').val(amount * drugsPrice);
+	}
+
+	function addModel() {
+		$('#addModel').modal("show");
+	}
+
+	function addMedicine() {
+		var table = document.getElementById("tbody3").innerHTML;
+		var name = $('#DrugsName').val();
+		var drugsFormat = $('#DrugsFormat').val();
+		var drugsUnit = $('#DrugsUnit').val();
+		var drugsUsage = $('#DrugsUsage').val();
+		var drugsFrequency = $('#DrugsFrequency').val();
+		var drugsPrice = $('#DrugsPrice').val();
+		var drugsAmount = $('#DrugsAmount').val();
+		table += "<tr class=\"text-c\" onclick=\"deleteMedicine(this)\">";
+		// table += "<td><input type=\"checkbox\" value=\"\" name=\"" + modelData[i].disease.diseaseID + "\"></td>";
+		table += "<td>" + name + "</td>";
+		table += "<td>" + drugsFormat + "</td>";
+		table += "<td>" + drugsPrice + "</td>";
+		table += "<td>" + drugsUsage + "</td>";
+		table += "<td>" + drugsUnit + "</td>";
+		table += "<td>" + drugsFrequency + "</td>";
+		table += "<td>" + drugsAmount + "</td>";
+		table += "</tr>";
+		document.getElementById("tbody3").innerHTML = table;
+	}
+	
+	function asyDrugs() {
+		var name = $('#DrugsName').val();
+		$.ajax({
+			url:"/getDrugsMsg",
+			data:{"DrugsName":name},
+			type:"post",
+			datatype:"json",
+			success:function (data) {
+				console.log(data);
+				$('#DrugsFormat').val(data.drugsFormat);
+				$('#DrugsPrice').val(data.drugsPrice);
+				$('#DrugsUnit').val(data.drugsUnit);
+			}
+		})
+	}
+</script>
+<!-- 弹出层 -->
+<!-- 添加药品 -->
+<div id="addModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">添加诊断</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+			</div>
+				<div class="modal-body">
+					<div class="row cl">
+						<label class="form-label col-xs-3 col-sm-2">药品名称：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<select class="select-box" id="DrugsName" onclick="asyDrugs()">
+								<option th:each="info:${drugs}" th:value="${info.DrugsName}" th:text="${info.DrugsName}"></option>
+							</select>
+						</div>
+						<label class="form-label col-xs-3 col-sm-2">药品用量：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="DrugsUnit" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-3 col-sm-2">药品规格：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="DrugsFormat" disabled="disabled"></textarea>
+						</div>
+						<label class="form-label col-xs-3 col-sm-2">药品单价：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="DrugsPrice" onkeyup="caculatePrice()" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="row cl">
+
+						<label class="form-label col-xs-3 col-sm-2">药品用法：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<select class="select-box" id="DrugsUsage">
+								<option value="冲剂">冲剂</option>
+								<option value="口服">口服</option>
+								<option value="丸剂">丸剂</option>
+							</select>
+						</div>
+						<label class="form-label col-xs-3 col-sm-2">使用频次：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<select class="select-box" id="DrugsFrequency">
+								<option value="一天两次">一天两次</option>
+								<option value="一天三次">一天三次</option>
+							</select>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-3 col-sm-2">数量：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="DrugsAmount" onkeyup="caculatePrice()"></textarea>
+						</div>
+						<label class="form-label col-xs-3 col-sm-2">总价：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="Price"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-primary" onclick="addMedicine()" aria-hidden="true" data-dismiss="modal">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+
+		</div>
+	</div>
+</div>
+<!--添加诊断-->
+<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">添加诊断</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+			</div>
+			<form>
+				<div class="modal-body">
+					<div class="row cl">
+						<label class="form-label col-xs-3 col-sm-2">病名：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<select class="select-box" onclick="asy()" id="name">
+								<option th:each="info:${diseases}" th:value="${info.diseaseName}" th:text="${info.diseaseName}"></option>
+							</select>
+						</div>
+						<label class="form-label col-xs-3 col-sm-2">ICD编码：</label>
+						<div class="formControls col-xs-8 col-sm-4" >
+							<textarea class="input-text" id="ICD" disabled="disabled"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-primary" onclick="addDiagnosis()">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

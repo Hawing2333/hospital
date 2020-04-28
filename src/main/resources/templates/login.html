@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>东软云医院登录界面</title>
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="/h-ui/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/h-ui/css/reset.css"/>
+</head>
+<body background="D:\eclipse-workspace\his\src\main\resources\static\h-ui\images\bg.jpg">
+
+<div id="particles-js">
+		<div class="login">
+			<form th:action="@{/login}" method="post">
+				<div class="login-top">
+					登录
+				</div>
+
+				<!--<p style="color: red" th:test="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>-->
+				<div class="login-center clearfix">
+					<div class="login-center-img"><img src="/h-ui/img/name.png"/></div>
+					<div class="login-center-input">
+						<input type="text" name="username" value="" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'"/>
+						<div class="login-center-input-text">用户名</div>
+					</div>
+				</div>
+				<div class="login-center clearfix">
+					<div class="login-center-img"><img src="/h-ui/img/password.png"/></div>
+					<div class="login-center-input">
+						<input type="password" name="password" value="" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"/>
+						<div class="login-center-input-text">密码</div>
+					</div>
+				</div>
+				<div class="login-center clearfix">
+					<input class="login-button" type="submit" value="登录">
+				</div>
+				<!--<div class="login-button" id="login" onclick="login()">-->
+					<!--登录-->
+				<!--</div>-->
+
+			</form>
+		</div>
+		<div class="sk-rotating-plane"></div>
+</div>
+
+<!-- scripts -->
+<script src="/h-ui/js/particles.min.js"></script>
+<script src="/h-ui/js/app.js"></script>
+<script type="text/javascript">
+	function login() {
+		var user = $('#username').val();
+		var pass = $('#password').val();
+		$.ajax({
+			url:"/login",
+			type: "post",
+			data:{"username":user,"password":pass},
+			datatype:"json",
+			success:function () {
+				window.open("/");
+				window.close(this);
+			}
+		})
+	}
+</script>
+<div style="text-align:center;">
+</div>
+</body>
+</html>
